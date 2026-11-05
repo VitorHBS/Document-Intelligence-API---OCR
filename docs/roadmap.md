@@ -5,8 +5,8 @@
 Legenda de status: `[ ]` pendente, `[~]` em andamento, `[x]` concluída.
 
 ## Fase 0: Fundação
-- [ ] T01 Repositório, TypeScript, Express, estrutura por módulo, rota `/health`
-- [ ] T02 Docker + docker-compose (API + PostgreSQL)
+- [x] T01 Repositório, TypeScript, Express, estrutura por módulo, rota `/health`
+- [x] T02 Docker + docker-compose (API + PostgreSQL)
 
 ## Fase 1: OCR em imagens
 - [ ] T03 Upload de arquivo (multer) com validação de tipo e tamanho

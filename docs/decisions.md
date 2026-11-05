@@ -48,3 +48,9 @@ Formato: contexto, decisão, alternativas e consequências. Decisões novas entr
 ## ADR-010: Formato da resposta via query string
 - **Status:** aceita
 - **Decisão:** `?format=text|json`, com JSON como padrão. O JSON traz texto por página e metadados (número de páginas, método usado, tempo de processamento); estrutura exata definida na T05.
+
+## ADR-011: ESM com NodeNext
+- **Status:** aceita
+- **Decisão:** `"type": "module"`, `module` e `moduleResolution` em `nodenext`, imports relativos com extensão `.js`.
+- **Alternativa:** CommonJS (menos atrito, mas fora da direção do ecossistema).
+- **Consequências:** o `tsc` gera `dist` que o Node carrega em ESM (verificado na imagem `runtime`); `require` não existe, e a ordem dos imports importa para carregar o `.env`.
