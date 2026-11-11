@@ -1,7 +1,8 @@
 //uso do multer aqui
 
 import type { Request } from "express";
-import multer, { type FileFilterCallback } from "multer";
+import multer from "multer";
+import { InvalidFileTypeError } from "../../../shared/erros/invalid-file-type.error.js";
 
 
 const allowedMimeTypes = [
@@ -11,14 +12,14 @@ const allowedMimeTypes = [
     'image/png'
 ];
 
-// Configuração de armazenamento e filtro para aceitar apenas PDF
+// Configuração de armazenamento e filtro para aceitar apenas PDF JPEG JPG PNG
 const storage = multer.memoryStorage();
 
 const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
     if (allowedMimeTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(new Error('Formato inválido! Apenas PDF, JPG, JPEG e PNG são permitidos.'));
+        cb(new InvalidFileTypeError());
     }
 };
 

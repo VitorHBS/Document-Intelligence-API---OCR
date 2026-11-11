@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 app.use(uploadRouter);
-app.use(errorMiddleware);
+
 
 app.get('/health', (req, res) => {
     res.status(200).json({
@@ -15,5 +15,7 @@ app.get('/health', (req, res) => {
         message: 'API is running'
     })
 })
+
+app.use(errorMiddleware);
 
 export default app
