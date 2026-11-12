@@ -6,11 +6,12 @@
 - Arquivos já criados, ainda não revisados: upload.middleware, documents (controller, routers, service), módulo ocr (engine, service)
 
 ## Tarefa atual
-**T03:** Upload de arquivo (multer), em revisão junto com T04.
+**T04:** Interface `OcrEngine` + implementação com tesseract.js (modelo `por`)
 
 ## Concluído
 - Planejamento e ADR-001 a ADR-010 (exceto ADR-006)
 - T01 e T02 (imagem final testada com `docker run`, compose com db healthy e volume persistente)
+- T3 upload com multer e tratamento de error
 
 ## Pendências e decisões em aberto
 - ADR-006: JWT ou sessão (decidir na T11)

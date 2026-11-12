@@ -9,7 +9,7 @@ Legenda de status: `[ ]` pendente, `[~]` em andamento, `[x]` concluída.
 - [x] T02 Docker + docker-compose (API + PostgreSQL)
 
 ## Fase 1: OCR em imagens
-- [ ] T03 Upload de arquivo (multer) com validação de tipo e tamanho
+- [x] T03 Upload de arquivo (multer) com validação de tipo e tamanho
 - [ ] T04 Interface `OcrEngine` + implementação com tesseract.js (modelo `por`)
 - [ ] T05 Endpoint `POST /documents/extract` para imagens, com `?format=text|json`
 
