@@ -18,10 +18,14 @@ FROM node:22-alpine AS runtime
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV TESSDATA_PATH=/app/tessdata
 
 COPY package*.json ./
 
-RUN npm ci --omit=dev
+RUN mkdir -p /app/tessdata \
+    && wget -O /app/tessdata/por.traineddata \
+    https://github.com/tesseract-ocr/tessdata/raw/main/por.traineddata
+
 
 COPY --from=builder /app/dist ./dist
 

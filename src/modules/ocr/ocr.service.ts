@@ -9,4 +9,4 @@ export class OcrService {
     async extractText(image: Buffer): Promise<string> {
         return await this.engine.extractText(image)
     }
-}
+} 
