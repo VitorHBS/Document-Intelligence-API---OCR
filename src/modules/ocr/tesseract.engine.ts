@@ -5,7 +5,7 @@ type Worker = Awaited<ReturnType<typeof tesseract.createWorker>>;
 
 export class TesseractEngine implements OcrEngine {
 
-    private workPromisse: Promise<Worker> | null = null;
+    private workPromise: Promise<Worker> | null = null;
 
     private getWorker(): Promise<Worker> {
 
@@ -14,17 +14,20 @@ export class TesseractEngine implements OcrEngine {
         }
 
 
-        this.workPromisse ??= tesseract.createWorker("por", 1, {
-            langPath: process.env.TESSDATA_PATH,
-            gzip: false
-        });
-
-        //se work falhar, zera ele para tentar novamente
-        this.workPromisse = this.workPromisse.catch((error) => {
-            this.workPromisse = null;
-            throw error
-        })
-        return this.workPromisse;
+        if (!this.workPromise) {
+            const promise = tesseract.createWorker("por", 1, {
+                langPath: process.env.TESSDATA_PATH,
+                gzip: false
+            });
+            
+            this.workPromise = promise;
+            
+            //se work falhar, zera ele para tentar novamente
+            promise.catch(() => {
+                if(this.workPromise === promise) this.workPromise = null;
+            })
+        } 
+        return this.workPromise;
     }
 
     async extractText(image: Buffer): Promise<string> {
@@ -34,9 +37,9 @@ export class TesseractEngine implements OcrEngine {
     }
 
     async terminate(): Promise<void> {
-        if (!this.workPromisse) return;
-        const worker = await this.workPromisse;
+        if (!this.workPromise) return;
+        const worker = await this.workPromise;
         await worker.terminate();
-        this.workPromisse = null;
+        this.workPromise = null;
     }
 }
