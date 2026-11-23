@@ -10,7 +10,7 @@ Legenda de status: `[ ]` pendente, `[~]` em andamento, `[x]` concluída.
 
 ## Fase 1: OCR em imagens
 - [x] T03 Upload de arquivo (multer) com validação de tipo e tamanho
-- [ ] T04 Interface `OcrEngine` + implementação com tesseract.js (modelo `por`)
+- [x] T04 Interface `OcrEngine` + implementação com tesseract.js (modelo `por`)
 - [ ] T05 Endpoint `POST /documents/extract` para imagens, com `?format=text|json`
 
 ## Fase 2: PDF

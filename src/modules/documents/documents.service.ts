@@ -1,3 +1,4 @@
+import { InvalidFileTypeError } from "../../shared/erros/invalid-file-type.error.js";
 import type { OcrService } from "../ocr/ocr.service.js";
 
 type DocumentInput = {
@@ -12,7 +13,7 @@ const allowedMimeTypes = [
 ];
 
 
-class DocumentService {
+export class DocumentService {
     constructor(private service: OcrService) {
 
     }
@@ -28,7 +29,7 @@ class DocumentService {
         }
 
         //implementar errro hanlder global para n ter dois Error iguais sendo aviado
-        throw new Error('Tipo do arquivo não suportado!')
+        throw InvalidFileTypeError
 
     }
 }
