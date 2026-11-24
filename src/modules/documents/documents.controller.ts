@@ -1,5 +1,7 @@
 import type { Request, Response } from "express";
 import type { DocumentService } from "./documents.service.js";
+import { FormatSchema } from "../../schemas/format.js";
+import { InvalidFileTypeError } from "../../shared/erros/invalid-file-type.error.js";
 
 export class UploadController {
 
@@ -7,25 +9,43 @@ export class UploadController {
 
     public handler = async (req: Request, res: Response) => {
 
-        if (!req.file?.buffer) {
-            return res.status(400).json({ error: 'Nenhum arquivo válido foi enviado' })
+        try {
+
+            const result = FormatSchema.safeParse({
+                format: req.query.format
+            });
+
+            if (!result.success) {
+                return res.status(400).json({ error: "Formato inválido!" });
+            }
+
+            const { format } = result.data
+
+            if (!req.file?.buffer) {
+                return res.status(400).json({ error: 'Nenhum arquivo válido foi enviado' })
+            }
+
+            const extraction = await this.documentService.execute({
+                file: req.file.buffer,
+                mimetype: req.file.mimetype
+            });
+
+            if (format === "text") {
+                const texto = "" //////////////imcompleto, finalizar o retorno do texto/////////////////////////////////
+                return res.type("text/plain").send(texto)
+            }
+
+            return res.status(200).json({
+                pages: extraction.pages,
+                metadata: extraction.metadata
+            });
+        } catch (err) {
+            if (err instanceof InvalidFileTypeError) {
+                return res.status(400).json({ error: err.message });
+            }
+            return res.status(500).json({ error: 'Internal Error' })
         }
 
-        const text  = await this.documentService.execute({ image: req.file.buffer, mimetype: req.file.mimetype });
 
-
-        return res.status(200).json({texto: text})
-
-        /*
-        return res.status(200).json({
-            mensagem: 'Arquivo enviado com sucesso!',
-            arquivo: {
-                nome: req.file.originalname,
-                tamanho: req.file.size,
-                mimetype: req.file.mimetype,
-                text: text
-            }
-        })
-        */
     }
 }

@@ -1,9 +1,15 @@
+import { test } from "node:test";
 import { InvalidFileTypeError } from "../../shared/erros/invalid-file-type.error.js";
 import type { OcrService } from "../ocr/ocr.service.js";
 
 type DocumentInput = {
-    image: Buffer,
+    file: Buffer,
     mimetype: string
+}
+
+type ExtractionResult = {
+    pages: { number: number; text: string }[]
+    metadata: { pageCount: number; method: string; processingTimeMs: number }
 }
 
 const allowedMimeTypes = [
@@ -18,18 +24,32 @@ export class DocumentService {
 
     }
 
-    async execute({ image, mimetype }: DocumentInput) {
+    async execute({ file, mimetype }: DocumentInput): Promise<ExtractionResult> {
 
         if (mimetype === "application/pdf") {
             throw new Error('Tipo do arquivo ainda não suportado!')
         }
 
         if (allowedMimeTypes.includes(mimetype)) {
-            return await this.service.extractText(image)
+
+            const start = Date.now()
+
+            const text = await this.service.extractText(file)
+
+            const pages = [{number: 1, text: text}]
+
+            return {
+                pages,
+                metadata: {
+                    pageCount: pages.length,
+                    method: 'ocr',
+                    processingTimeMs: Date.now() - start
+                }
+            }
         }
 
         //implementar errro hanlder global para n ter dois Error iguais sendo aviado
-        throw InvalidFileTypeError
+        throw new InvalidFileTypeError()
 
     }
 }
