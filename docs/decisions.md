@@ -47,7 +47,10 @@ Formato: contexto, decisão, alternativas e consequências. Decisões novas entr
 
 ## ADR-010: Formato da resposta via query string
 - **Status:** aceita
-- **Decisão:** `?format=text|json`, com JSON como padrão. O JSON traz texto por página e metadados (número de páginas, método usado, tempo de processamento); estrutura exata definida na T05.
+- **Decisão:** `?format=text|json`, com JSON como padrão. O JSON traz texto por página e metadados (número de páginas, método usado, tempo de processamento); estrutura exata definida na T05.  
+
+{ "pages": [{ "number": 1, "text": "..." }],
+  "metadata": { "pageCount": 1, "method": "ocr", "processingTimeMs": 315 } }
 
 ## ADR-011: ESM com NodeNext
 - **Status:** aceita

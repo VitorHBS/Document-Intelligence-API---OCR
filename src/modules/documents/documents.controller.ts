@@ -31,7 +31,7 @@ export class UploadController {
             });
 
             if (format === "text") {
-                const texto = "" //////////////imcompleto, finalizar o retorno do texto/////////////////////////////////
+                const texto = extraction.pages.map(page => page.text).join("\n\n")
                 return res.type("text/plain").send(texto)
             }
 
